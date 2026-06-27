@@ -1,8 +1,11 @@
 package com.example.planetapi.di
 import com.example.planetapi.data.remote.DragonBallApi
+import com.example.planetapi.data.remote.datasource.CharacterRemoteDataSource
 import com.example.planetapi.data.remote.datasource.PlanetRemoteDataSource
+import com.example.planetapi.data.repository.CharacterRepositoryImpl
 import com.example.planetapi.data.repository.PlanetRepositoryImpl
 import com.example.planetapi.domain.model.Planet
+import com.example.planetapi.domain.repository.CharacterRepository
 import com.example.planetapi.domain.repository.PlanetRepository
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -47,4 +50,20 @@ object AppModule {
     fun provideRepository(remoteDataSource: PlanetRemoteDataSource): PlanetRepository {
         return PlanetRepositoryImpl(remoteDataSource)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideCharacterRemoteDataSource(api: DragonBallApi): CharacterRemoteDataSource {
+        return CharacterRemoteDataSource(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterRepository(
+        api: DragonBallApi
+    ): CharacterRepository {
+        return CharacterRepositoryImpl(api)
+    }
+
 }
