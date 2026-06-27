@@ -1,39 +1,65 @@
-package com.example.planetapi.presentation.list
+package com.example.planetapi.presentation.planets.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.planetapi.domain.model.Planet
+import kotlinx.coroutines.launch
 
 @Composable
 fun ListScreen(
+    drawerState: DrawerState,
     viewModel: ListViewModel = hiltViewModel(),
     onPlanetClick: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    ListBodyScreen(state = state, onEvent = viewModel::onEvent, onPlanetClick = onPlanetClick)
+    ListBodyScreen(
+        drawerState = drawerState,
+        state = state,
+        onEvent = viewModel::onEvent,
+        onPlanetClick = onPlanetClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListBodyScreen(
+    drawerState: DrawerState,
     state: ListUiState,
     onEvent: (ListEvent) -> Unit,
     onPlanetClick: (Int) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = { Text("Planetas Dragon Ball") })
+            CenterAlignedTopAppBar(
+                title = { Text("Planetas Dragon Ball") },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        scope.launch { drawerState.open() }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Menu,
+                            contentDescription = "Abrir Menú"
+                        )
+                    }
+                }
+            )
         }
     ) { padding ->
         Column(
@@ -118,7 +144,7 @@ fun ListBodyScreen(
     }
 }
 
-@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+@Preview(showBackground = true)
 @Composable
 fun ListBodyScreenPreview() {
     val samplePlanets = listOf(
@@ -138,10 +164,12 @@ fun ListBodyScreenPreview() {
         )
     )
     val state = ListUiState(planets = samplePlanets, filterName = "")
+    val dummyDrawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
     MaterialTheme {
         Surface {
             ListBodyScreen(
+                drawerState = dummyDrawerState,
                 state = state,
                 onEvent = {},
                 onPlanetClick = {}

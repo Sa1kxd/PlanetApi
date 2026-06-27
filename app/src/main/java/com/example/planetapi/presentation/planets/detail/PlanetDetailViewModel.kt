@@ -1,4 +1,4 @@
-package com.example.planetapi.presentation.detail
+package com.example.planetapi.presentation.planets.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
