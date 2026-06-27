@@ -1,4 +1,4 @@
-package com.example.planetapi.presentation.list
+package com.example.planetapi.presentation.planets.list
 
 import com.example.planetapi.domain.model.Planet
 
