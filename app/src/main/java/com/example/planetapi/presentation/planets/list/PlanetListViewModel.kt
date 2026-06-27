@@ -1,4 +1,4 @@
-package com.example.planetapi.presentation.list
+package com.example.planetapi.presentation.planets.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.planetapi.domain.usecases.GetPlanetUseCase

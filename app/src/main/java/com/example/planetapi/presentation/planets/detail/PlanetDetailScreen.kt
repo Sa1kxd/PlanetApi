@@ -1,4 +1,4 @@
-package com.example.planetapi.presentation.detail
+package com.example.planetapi.presentation.planets.detail
 
 
 import androidx.compose.foundation.layout.Box
